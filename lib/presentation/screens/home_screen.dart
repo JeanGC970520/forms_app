@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
           ListTile(
             title: const Text('Cubits'),
             subtitle: const Text('State management simple'),
-            trailing: const Icon( Icons.arrow_back_ios_rounded ),
+            trailing: const Icon( Icons.arrow_forward_ios_rounded ),
             onTap: () {} ,
           ),
 
