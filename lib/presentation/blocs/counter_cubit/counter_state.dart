@@ -1,6 +1,9 @@
 part of 'counter_cubit.dart';
 
-class CounterState {
+// * IMPORTANT: Equatable allow us compare objects and determinate if
+// *            they contain the same data in their properties or not
+
+class CounterState extends Equatable {
 
   final int counter;
   final int transactionCount;
@@ -9,6 +12,9 @@ class CounterState {
     this.counter = 0,
     this.transactionCount = 0,
   });
+
+  @override
+  List<Object> get props => [ counter, transactionCount ];
 
   CounterState copyWith({
     int? counter,
