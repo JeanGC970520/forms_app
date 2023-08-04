@@ -10,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged,
     this.validator,
     this.prefixIcon,
+    this.obscureText = false,
   });
 
   final String? label;
@@ -18,6 +19,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final IconData? prefixIcon;
+  final bool obscureText;
  
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       onChanged: onChanged,
       validator: validator,
+      obscureText: obscureText,
       decoration: InputDecoration(
         enabledBorder: border,
         focusedBorder: border.copyWith(borderSide: BorderSide(color: colors.primary)),
