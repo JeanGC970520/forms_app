@@ -10,15 +10,16 @@ class RegisterCubit extends Cubit<RegisterFormState> {
   RegisterCubit() : super(const RegisterFormState());
 
   void onSubmit() {
+    // * Emitting new state to notify that the user try to validate
     emit(
       state.copyWith(
         formStatus: FormStatus.validating,
         userName: Username.dirty( state.userName.value ),
         password: Password.dirty( state.password.value ),
-
+        email: Email.dirty(state.email.value),
         isValid: Formz.validate([
           state.userName, 
-          // TODO: state.email,
+          state.email,
           state.password,
         ])
       )
@@ -33,15 +34,18 @@ class RegisterCubit extends Cubit<RegisterFormState> {
     emit(
       state.copyWith(
         userName: username,
-        isValid: Formz.validate([ username, state.password ]),
+        // * Validate trigger the override validate() method on every custom Formz
+        isValid: Formz.validate([ username, state.password, state.email ]),
       )
     );
   }
 
   void emailChanged( String value ) {
+    final email = Email.dirty(value);
     emit(
       state.copyWith(
-        email: value,
+        email: email,
+        isValid: Formz.validate([ email, state.userName, state.password ])
       )
     );
   }
@@ -51,7 +55,7 @@ class RegisterCubit extends Cubit<RegisterFormState> {
     emit(
       state.copyWith(
         password: password,
-        isValid: Formz.validate([ password, state.userName ])
+        isValid: Formz.validate([ password, state.userName, state.email ])
       )
     );
   }
