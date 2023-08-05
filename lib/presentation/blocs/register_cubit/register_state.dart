@@ -8,14 +8,14 @@ class RegisterFormState extends Equatable {
   const RegisterFormState({
     this.formStatus = FormStatus.invalid, 
     this.userName = const Username.pure(), 
-    this.email = '', 
+    this.email = const Email.pure(), 
     this.password = const Password.pure(), 
     this.isValid = false,
   });
 
   final FormStatus formStatus;
   final Username userName;
-  final String email;
+  final Email email;
   final Password password;
   final bool isValid;
 
@@ -25,7 +25,7 @@ class RegisterFormState extends Equatable {
   RegisterFormState copyWith({
     FormStatus? formStatus, 
     Username? userName,
-    String? email,
+    Email? email,
     Password? password,
     bool? isValid,
   }) {
