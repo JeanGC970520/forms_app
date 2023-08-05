@@ -50,39 +50,27 @@ class _RegisterView extends StatelessWidget {
   }
 }
 
-class _RegisterForm extends StatefulWidget {
+class _RegisterForm extends StatelessWidget {
   const _RegisterForm();
-
-  @override
-  State<_RegisterForm> createState() => _RegisterFormState();
-}
-
-class _RegisterFormState extends State<_RegisterForm> {
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     
-  final registerCubit = context.watch<RegisterCubit>();
+    final registerCubit = context.watch<RegisterCubit>();
+    final username = registerCubit.state.userName;
+    final password = registerCubit.state.password;
 
     return Form(
-      key: _formKey,
       child: Column(
         children: [
 
           CustomTextFormField(
             label: 'User name',
-            onChanged: (value) {
-              registerCubit.userNameChanged(value);
-              _formKey.currentState!.validate();
-            },
-            validator: (value) {
-              if( value == null || value.isEmpty ) return 'Necessary field';
-              if( value.trim().isEmpty ) return 'Necessary field';
-              if( value.trim().length < 6 ) return 'Can\'t contain less than 6 words';
-              return null;
-            },
+            onChanged: registerCubit.userNameChanged,
+            // isPure help to know if the form field changed its initial value
+            errorMessage: username.isPure || username.isValid 
+              ? null
+              : 'User not valid',
           ),
           const SizedBox(height: 10,),
 
@@ -90,7 +78,6 @@ class _RegisterFormState extends State<_RegisterForm> {
             label: 'Email',
             onChanged: (value) {
               registerCubit.emailChanged(value);
-              _formKey.currentState!.validate();
             },
             validator: (value) {
               if( value == null || value.isEmpty ) return 'Necessary field';
@@ -112,7 +99,6 @@ class _RegisterFormState extends State<_RegisterForm> {
             obscureText: true,
             onChanged: (value) {
               registerCubit.passwordChanged(value);
-              _formKey.currentState!.validate();
             },
             validator: (value) {
               if( value == null || value.isEmpty ) return 'Necessary field';
@@ -127,8 +113,6 @@ class _RegisterFormState extends State<_RegisterForm> {
 
           FilledButton.tonalIcon(
             onPressed: () {
-              final isValid = _formKey.currentState!.validate();
-              if( !isValid ) return;  
               registerCubit.onSubmit();
             },
             icon: const Icon( Icons.save ), 
