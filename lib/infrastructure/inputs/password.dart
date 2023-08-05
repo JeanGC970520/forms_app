@@ -14,6 +14,17 @@ class Password extends FormzInput<String, PasswordError> {
   // * Change data
   const Password.dirty( String value ) : super.dirty(value);
 
+  String? get errorMessage {
+    // * isPure help to know if the form field changed its initial value
+    if( isValid || isPure ) return null;
+
+    if( displayError == PasswordError.empty ) return 'Field required';
+    if( displayError == PasswordError.length ) return 'At least 6 words';
+
+    return null;
+
+  }
+
   // Override validator to handle validating a given input value.
   @override
   PasswordError? validator(String value) {

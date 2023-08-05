@@ -14,6 +14,16 @@ class Username extends FormzInput<String, UsernameError> {
   // * Change data
   const Username.dirty( String value ) : super.dirty(value);
 
+  String? get errorMessage {
+    // * isPure help to know if the form field changed its initial value
+    if( isValid || isPure ) return null;
+
+    if( displayError == UsernameError.empty ) return 'Field required';
+    if( displayError == UsernameError.length ) return 'At least 6 words';
+
+    return null;
+  }
+
   // Override validator to handle validating a given input value.
   @override
   UsernameError? validator(String value) {

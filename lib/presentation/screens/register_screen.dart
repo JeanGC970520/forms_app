@@ -67,10 +67,7 @@ class _RegisterForm extends StatelessWidget {
           CustomTextFormField(
             label: 'User name',
             onChanged: registerCubit.userNameChanged,
-            // isPure help to know if the form field changed its initial value
-            errorMessage: username.isPure || username.isValid 
-              ? null
-              : 'User not valid',
+            errorMessage: username.errorMessage,
           ),
           const SizedBox(height: 10,),
 
@@ -97,15 +94,8 @@ class _RegisterForm extends StatelessWidget {
           CustomTextFormField(
             label: 'Password',
             obscureText: true,
-            onChanged: (value) {
-              registerCubit.passwordChanged(value);
-            },
-            validator: (value) {
-              if( value == null || value.isEmpty ) return 'Necessary field';
-              if( value.trim().isEmpty ) return 'Necessary field';
-              if( value.trim().length < 6 ) return 'Can\'t contain less than 6 words';
-              return null;
-            },
+            onChanged: registerCubit.passwordChanged,
+            errorMessage: password.errorMessage,
           ),
           const SizedBox(height: 10,),
 
